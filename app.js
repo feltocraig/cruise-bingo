@@ -97,6 +97,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then(registration => console.log('Service Worker registered with scope: ', registration.scope))
                 .catch(error => console.log('Service Worker registration failed: ', error));
         });
+
+        let refreshing;
+        navigator.serviceWorker.addEventListener('controllerchange',
+            () => {
+                if (refreshing) return;
+                refreshing = true;
+                const updateNotification = document.getElementById('update-notification');
+                updateNotification.style.display = 'block';
+                const reloadButton = document.getElementById('reload-button');
+                reloadButton.onclick = () => {
+                    window.location.reload();
+                };
+            }
+        );
     }
 
     generateCard();

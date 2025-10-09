@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cruise-bingo-cache-v2';
+const CACHE_NAME = 'cruise-bingo-cache-v4';
 const urlsToCache = [
     '/',
     '/index.html',
@@ -17,6 +17,7 @@ self.addEventListener('install', event => {
                 return cache.addAll(urlsToCache);
             })
     );
+    self.skipWaiting();
 });
 
 self.addEventListener('activate', event => {
@@ -32,6 +33,7 @@ self.addEventListener('activate', event => {
             );
         })
     );
+    self.clients.claim();
 });
 
 self.addEventListener('fetch', event => {
