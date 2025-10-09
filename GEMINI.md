@@ -23,3 +23,21 @@ Pure JavaScript preferred — no framework like React or Vue.
 Include all files in a single folder (HTML, CSS, JS, manifest, service worker).
 
 Bonus: include a reset button to regenerate a new card layout from the same item list.
+
+---
+
+### Deploying a New Version
+
+To ensure users get the latest version of the app, you must update the `CACHE_NAME` in `sw.js`. This will trigger the service worker to install the new files and clear out the old cache.
+
+For example, if your `CACHE_NAME` is:
+
+```javascript
+const CACHE_NAME = 'cruise-bingo-cache-v2';
+```
+
+You would update it to:
+
+```javascript
+const CACHE_NAME = 'cruise-bingo-cache-v3';
+```

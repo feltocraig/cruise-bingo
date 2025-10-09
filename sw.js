@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cruise-bingo-cache-v4';
+const CACHE_NAME = 'cache-v4';
 const urlsToCache = [
     '/',
     '/index.html',
