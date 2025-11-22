@@ -1,7 +1,23 @@
 document.addEventListener('DOMContentLoaded', () => {
     const bingoCard = document.getElementById('bingo-card');
     const resetButton = document.getElementById('reset-button');
+    const settingsToggle = document.getElementById('settings-toggle');
+    const settingsMenu = document.getElementById('settings-menu');
     const gridSize = 5;
+
+    // Settings Menu Toggle
+    settingsToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        settingsMenu.classList.toggle('hidden');
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!settingsMenu.contains(e.target) && !settingsToggle.contains(e.target)) {
+            settingsMenu.classList.add('hidden');
+        }
+    });
+
     const freeSpaceIndex = Math.floor(gridSize * gridSize / 2);
 
     const bingoItems = [
@@ -14,14 +30,14 @@ document.addEventListener('DOMContentLoaded', () => {
         'Visited the gym',
         'Dance sliding across the floor on her knees',
         'Stopping to look at her back in a mirror',
-        'Drinking Champagne',
-        'Calling someone a "beautiful dummy',
+        'Drinking Whiskey',
+        'Calling someone a "beautiful dummy"',
         'Finding/trying to pet a cat',
         'Flexing',
         'Danced at the club',
         'Throwing food',
         'Got a sunburn',
-        'Befriending a stanger',
+        'Befriending a stranger',
         'Icing her feet',
         'Saying "I run hot" while fanning herself',
         'Giving the middle finger',
@@ -64,12 +80,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 square.classList.add('marked');
             }
 
-            square.addEventListener('click', () => toggleMark(square, i));
+            square.addEventListener('click', (e) => toggleMark(square, i, e));
             bingoCard.appendChild(square);
         }
     }
 
-    function toggleMark(square, index) {
+    function toggleMark(square, index, event) {
         if (index === freeSpaceIndex) return; // Cannot unmark the free space
 
         square.classList.toggle('marked');
@@ -77,6 +93,21 @@ document.addEventListener('DOMContentLoaded', () => {
         if (square.classList.contains('marked')) {
             if (!markedSquares.includes(index)) {
                 markedSquares.push(index);
+                
+                // Small confetti burst on click
+                confetti({
+                    particleCount: 30,
+                    spread: 50,
+                    origin: { 
+                        x: event.clientX / window.innerWidth, 
+                        y: event.clientY / window.innerHeight 
+                    },
+                    disableForReducedMotion: true
+                });
+
+                if (checkWin()) {
+                    triggerWin();
+                }
             }
         } else {
             markedSquares = markedSquares.filter(item => item !== index);
@@ -85,10 +116,45 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('markedSquares', JSON.stringify(markedSquares));
     }
 
+    function checkWin() {
+        const wins = [
+            [0, 1, 2, 3, 4], [5, 6, 7, 8, 9], [10, 11, 12, 13, 14], [15, 16, 17, 18, 19], [20, 21, 22, 23, 24], // Rows
+            [0, 5, 10, 15, 20], [1, 6, 11, 16, 21], [2, 7, 12, 17, 22], [3, 8, 13, 18, 23], [4, 9, 14, 19, 24], // Cols
+            [0, 6, 12, 18, 24], [4, 8, 12, 16, 20] // Diagonals
+        ];
+
+        const isMarked = (i) => markedSquares.includes(i) || i === freeSpaceIndex;
+
+        return wins.some(combo => combo.every(index => isMarked(index)));
+    }
+
+    function triggerWin() {
+        const duration = 3000;
+        const animationEnd = Date.now() + duration;
+        const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+        const randomInRange = (min, max) => Math.random() * (max - min) + min;
+
+        const interval = setInterval(function() {
+            const timeLeft = animationEnd - Date.now();
+
+            if (timeLeft <= 0) {
+                return clearInterval(interval);
+            }
+
+            const particleCount = 50 * (timeLeft / duration);
+            confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+            confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+        }, 250);
+    }
+
     resetButton.addEventListener('click', () => {
-        localStorage.removeItem('markedSquares');
-        localStorage.removeItem('bingoItems');
-        generateCard();
+        settingsMenu.classList.add('hidden'); // Close menu
+        if (confirm('Start a new game? This will clear your current card.')) {
+            localStorage.removeItem('markedSquares');
+            localStorage.removeItem('bingoItems');
+            generateCard();
+        }
     });
 
     if ('serviceWorker' in navigator) {

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cache-v4';
+const CACHE_NAME = 'cache-v7';
 const urlsToCache = [
     '/',
     '/index.html',
@@ -6,7 +6,9 @@ const urlsToCache = [
     '/app.js',
     '/manifest.json',
     '/icon-192x192.svg',
-    '/icon-512x512.svg'
+    '/icon-512x512.svg',
+    'https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js',
+    'https://fonts.googleapis.com/css2?family=Lobster&family=Poppins:wght@400;600&display=swap'
 ];
 
 self.addEventListener('install', event => {

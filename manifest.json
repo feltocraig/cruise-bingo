@@ -1,10 +1,10 @@
 {
-  "name": "Cruise Bingo",
-  "short_name": "Bingo",
+  "name": "Ali's 40th Bingo",
+  "short_name": "AliBingo",
   "start_url": "/index.html",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#000000",
+  "background_color": "#fdf2f8",
+  "theme_color": "#ff4081",
   "icons": [
     {
       "src": "icon-192x192.svg",

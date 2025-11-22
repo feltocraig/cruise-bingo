@@ -3,17 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cruise Bingo</title>
+    <title>Ali's 40th Birthday Bingo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
 <body>
-    <h1>Cruise Bingo</h1>
-    <div id="bingo-card" class="bingo-card"></div>
-    <button id="reset-button">New Card</button>
+    <div class="settings-wrapper">
+        <button id="settings-toggle" class="icon-btn" aria-label="Settings">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="m370-80-16-128q-13-5-24.5-12T307-235l-119 50L78-375l103-78q-1-7-1-13.5v-27q0-6.5 1-13.5L78-585l110-190 119 50q11-8 23-15t24-12l16-128h220l16 128q13 5 24.5 12t22.5 15l119-50 110 190-103 78q1 7 1 13.5v27q0 6.5-1 13.5l103 78-110 190-119-50q-11 8-23 15t-24 12l-16 128H370Zm112-260q58 0 99-41t41-99q0-58-41-99t-99-41q-59 0-99.5 41T342-480q0 58 40.5 99t99.5 41Zm0-80q-25 0-42.5-17.5T422-480q0-25 17.5-42.5T482-540q25 0 42.5 17.5T542-480q0 25-17.5 42.5T482-420Z"/></svg>
+        </button>
+        <div id="settings-menu" class="dropdown-menu hidden">
+            <button id="reset-button" class="dropdown-item">
+                <span>New Game</span>
+            </button>
+        </div>
+    </div>
 
-    <div id="update-notification" style="display: none;">
-        A new version is available! <button id="reload-button">Reload</button>
+    <div class="container">
+        <header>
+            <h1>Ali's 40th Birthday Bingo!</h1>
+        </header>
+        
+        <div id="bingo-card" class="bingo-card"></div>
+
+        <div id="update-notification" class="notification" style="display: none;">
+            New version available! <button id="reload-button">Update</button>
+        </div>
     </div>
 
     <script src="app.js"></script>
