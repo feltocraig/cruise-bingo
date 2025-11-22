@@ -7,8 +7,9 @@ const urlsToCache = [
     '/manifest.json',
     '/icon-192x192.svg',
     '/icon-512x512.svg',
-    'https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js',
-    'https://fonts.googleapis.com/css2?family=Lobster&family=Poppins:wght@400;600&display=swap'
+    // Note: avoid adding cross-origin resources here (CDNs, Google Fonts).
+    // Caching those in install can cause the install step to fail when offline
+    // or when CORS headers prevent caching. They will be requested at runtime.
 ];
 
 self.addEventListener('install', event => {
@@ -39,13 +40,35 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('fetch', event => {
+    // Navigation requests should return the cached app shell (index.html)
+    // when offline. For other requests, use cache-first, then network,
+    // and for same-origin GET responses add them to the cache for future use.
+    if (event.request.mode === 'navigate') {
+        event.respondWith(
+            fetch(event.request).catch(() => caches.match('/index.html'))
+        );
+        return;
+    }
+
     event.respondWith(
-        caches.match(event.request)
-            .then(response => {
-                if (response) {
-                    return response;
+        caches.match(event.request).then(cached => {
+            if (cached) return cached;
+
+            return fetch(event.request).then(networkResponse => {
+                try {
+                    const requestURL = new URL(event.request.url);
+                    // Only cache same-origin GET requests
+                    if (event.request.method === 'GET' && requestURL.origin === location.origin) {
+                        caches.open(CACHE_NAME).then(cache => cache.put(event.request, networkResponse.clone()));
+                    }
+                } catch (e) {
+                    // ignore URL parsing/cache errors
                 }
-                return fetch(event.request);
-            })
+                return networkResponse;
+            }).catch(() => {
+                // If network fails and nothing in cache, just let it fail.
+                return cached;
+            });
+        })
     );
 });

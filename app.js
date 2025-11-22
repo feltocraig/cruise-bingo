@@ -95,15 +95,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 markedSquares.push(index);
                 
                 // Small confetti burst on click
-                confetti({
-                    particleCount: 30,
-                    spread: 50,
-                    origin: { 
-                        x: event.clientX / window.innerWidth, 
-                        y: event.clientY / window.innerHeight 
-                    },
-                    disableForReducedMotion: true
-                });
+                if (typeof confetti === 'function') {
+                    confetti({
+                        particleCount: 30,
+                        spread: 50,
+                        origin: { 
+                            x: event.clientX / window.innerWidth, 
+                            y: event.clientY / window.innerHeight 
+                        },
+                        disableForReducedMotion: true
+                    });
+                }
 
                 if (checkWin()) {
                     triggerWin();
@@ -143,8 +145,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const particleCount = 50 * (timeLeft / duration);
-            confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
-            confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+            if (typeof confetti === 'function') {
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+            }
         }, 250);
     }
 
