@@ -22,7 +22,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
+    padding: 10px;
     touch-action: manipulation; /* Improves touch responsiveness */
 }
 
@@ -32,8 +32,8 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
-    padding-top: 20px; /* Space for top bar if needed, though settings is fixed */
+    gap: 10px;
+    padding-top: 10px; /* Space for top bar if needed, though settings is fixed */
 }
 
 header {
@@ -53,25 +53,25 @@ h1 {
 .bingo-card {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 8px;
+    gap: 4px;
     width: 100%;
     aspect-ratio: 1 / 1;
     background-color: rgba(255, 255, 255, 0.5);
-    padding: 10px;
-    border-radius: 16px;
+    padding: 5px;
+    border-radius: 12px;
     box-shadow: var(--shadow);
     backdrop-filter: blur(5px);
 }
 
 .bingo-square {
     background-color: var(--card-bg);
-    border-radius: 8px;
-    padding: 4px; /* Reduced padding for mobile */
+    border-radius: 6px;
+    padding: 2px; /* Tight padding for mobile */
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    font-size: 0.75rem;
+    font-size: 0.65rem;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -81,7 +81,7 @@ h1 {
     hyphens: auto;
     overflow: hidden;
     word-break: break-word;
-    line-height: 1.2; /* Better spacing for wrapped text */
+    line-height: 1.1; /* Tighter spacing for wrapped text */
 }
 
 /* Larger screens */

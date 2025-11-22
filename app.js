@@ -41,8 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
         'Icing her feet',
         'Saying "I run hot" while fanning herself',
         'Giving the middle finger',
-        'Says "Spider Craig"',
-        'Gets a second serving of a Thanksgiving side',
+        '"Spider Craig"',
+        'Gets a second serving of a dish',
         '"I am who I am"',
         'Ordered a drink with an umbrella',
         'Participated in a cheesy cruise game'
